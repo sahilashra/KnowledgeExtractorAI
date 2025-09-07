@@ -1,0 +1,10 @@
+FDA Software Validation Guidance
+
+Section 5.2.4: Alert Response Requirements
+Medical device software that controls patient monitoring systems must respond to critical alerts within 1 second of detection.
+
+Section 7.3.1: Design Validation
+All software requirements must be validated against user needs and intended use through comprehensive testing.
+
+Section 820.30: Design Controls
+Software design outputs must be verified against design inputs and validated for intended use.

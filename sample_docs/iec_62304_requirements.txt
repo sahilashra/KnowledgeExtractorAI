@@ -1,0 +1,11 @@
+IEC 62304 Medical Device Software Lifecycle
+
+Class A Software: Software that cannot contribute to death or serious injury
+Class B Software: Software that can contribute to non-serious injury  
+Class C Software: Software that can contribute to death or serious injury
+
+Section 5.2.4: Alarm Response Requirements
+Software controlling medical alarms must respond within manufacturer-specified time limits.
+
+Section 6.1: Software Unit Implementation and Testing
+Each software unit must be verified against its specification.

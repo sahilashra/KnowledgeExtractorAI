@@ -1,0 +1,20 @@
+Title: IEC 62304 - Medical device software – Software life cycle processes
+
+Clause 4.3: Software safety classification
+The manufacturer shall assign to each software system a software safety class (Class A, Class B, or Class C) according to the possible effects on the patient, operator, or other people resulting from a hazard to which the software system can contribute.
+- Class A: No injury or damage to health is possible.
+- Class B: Non-serious injury is possible.
+- Class C: Death or serious injury is possible.
+
+Clause 5: Software development process
+The manufacturer shall document a software development process. The process shall include the following activities:
+- Software development planning
+- Software requirements analysis
+- Software architectural design
+- Software detailed design
+- Software unit implementation and verification
+- Software integration and integration testing
+- Software system testing
+
+Clause 5.2.4: Software Requirements Analysis
+The manufacturer shall establish and document the functional and performance requirements of the software. This includes requirements for the user interface, data processing, and security. For Class C software, every software requirement must be traceable to a corresponding system-level risk control measure.

@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "supermemory": {
+    "command": "npx",
+    "args": [
+      "install-mcp",
+      "https://mcp.supermemory.ai/_lfy0zMHHvNKsPg3OD86f/sse",
+      "--client",
+      "gemini"
+    ]
+  },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
+  }
+}

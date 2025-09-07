@@ -1,0 +1,19 @@
+Title: FDA 21 CFR 820.30 - Design Controls
+
+Section 1: General
+Each manufacturer of any class III or class II device, and a subset of class I devices, shall establish and maintain procedures to control the design of the device in order to ensure that specified design requirements are met.
+
+Section 2: Design and Development Planning
+Each manufacturer shall establish and maintain plans that describe or reference the design and development activities and define responsibility for implementation. The plans shall identify and describe the interfaces with different groups or activities that provide, or result in, input to the design and development process. The plans shall be reviewed, updated, and approved as design and development evolves.
+
+Section 3: Design Input
+Each manufacturer shall establish and maintain procedures to ensure that the design requirements relating to a device are appropriate and address the intended use of the device, including the needs of the user and patient. The procedures shall include a mechanism for addressing incomplete, ambiguous, or conflicting requirements. The design input requirements shall be documented and shall be reviewed and approved by a designated individual(s).
+
+Section 4: Design Output
+Each manufacturer shall establish and maintain procedures for defining and documenting design output in terms that allow an adequate evaluation of conformance to design input requirements. Design output procedures shall contain or make reference to acceptance criteria and shall ensure that those design outputs that are essential for the proper functioning of the device are identified.
+
+Section 5: Design Verification
+Each manufacturer shall establish and maintain procedures for verifying the device design. Design verification shall confirm that the design output meets the design input requirements. The results of the design verification, including identification of the design, method(s), the date, and the individual(s) performing the verification, shall be documented in the DHF.
+
+Section 5.2.4: Alert Response Requirements
+For software-driven medical devices, design verification must include specific testing of alert and alarm conditions. The system must demonstrate a response time of less than 2 seconds for critical alerts. All alert conditions and their corresponding system responses must be documented in the risk management file.

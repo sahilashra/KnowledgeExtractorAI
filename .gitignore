@@ -1,0 +1,34 @@
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and editor directories
+.idea/
+.vscode/
+
+# Node.js dependencies & logs
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Next.js build artifacts
+.next/
+out/
+
+# Sensitive credentials
+# IMPORTANT: Ensure your service account key is in a directory listed here
+# or is located outside the project directory entirely.
+ServiceAccountKey/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+healthcare_qa_results.json 
