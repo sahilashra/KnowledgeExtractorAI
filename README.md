@@ -16,19 +16,24 @@ This project is a comprehensive solution for building a Healthcare Question-Answ
 The system is built on a serverless architecture using Google Cloud Platform services.
 
 -   **Frontend:** A Next.js application provides the user interface for uploading documents and asking questions.
--   **Backend:** Python scripts automate the setup and configuration of the GCP services.
-    -   **`setup_day1.py`:** Provisions Document AI and Cloud Storage buckets for the document processing pipeline.
-    -   **`setup_day2.py`:** Sets up Vertex AI Search to create the knowledge base.
+-   **Backend:** Python scripts automate the setup and execution of the QA pipeline.
+    -   **`setup_day1.py`:** Provisions Document AI and Cloud Storage buckets.
+    -   **`setup_day2.py`:** Sets up Vertex AI Search.
+    -   **`populate_kb.py`:** Uploads compliance documents to Cloud Storage.
+    -   **`main_pipeline.py`:** Orchestrates the end-to-end RAG pipeline.
+    -   **`healthcare_pipeline.py`:** Contains the core logic for parsing documents and generating test cases.
 -   **Data Flow:**
-    1.  Healthcare compliance documents (PDFs) are uploaded to a **Cloud Storage** bucket.
-    2.  **Document AI** processes the documents, extracts structured data, and stores the output in another Cloud Storage bucket.
-    3.  **Vertex AI Search** indexes the processed documents, creating a searchable knowledge base.
-    4.  The user interacts with the frontend to ask questions, which are then sent to the Vertex AI Search engine to retrieve relevant answers.
+    1.  Compliance documents are uploaded to **Cloud Storage** using `populate_kb.py`.
+    2.  The `main_pipeline.py` script is run, which uses `healthcare_pipeline.py` to:
+        a.  Parse requirements from the documents.
+        b.  Search the **Vertex AI Search** knowledge base for compliance context.
+        c.  Generate test cases using Gemini, grounded in the compliance context.
+    3.  The generated test cases are saved to a JSON file and can be exported to various ALM formats.
 
 ### Technology Stack:
 
 -   **Frontend:** Next.js, React, TypeScript
--   **Backend:** Python
+-   **Backend:** Python, Gemini Pro, Vertex AI Search
 -   **Google Cloud Platform:**
     -   Document AI
     -   Vertex AI Search
@@ -53,8 +58,8 @@ Before you begin, ensure you have the following:
 ### 4.1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/KnowledgeExtractor.git
-cd KnowledgeExtractor
+git clone https://github.com/sahilashra/KnowledgeExtractorAI.git
+cd KnowledgeExtractorAI
 ```
 
 ### 4.2. Configure Environment Variables
@@ -63,16 +68,9 @@ cd KnowledgeExtractor
     ```bash
     cp .env.example .env
     ```
-2.  **Edit the `.env` file:**
-    -   `GCP_PROJECT_ID`: Your Google Cloud project ID.
-    -   `GCP_REGION`: The GCP region where you want to deploy the services (e.g., `us-central1`).
-    -   `GCP_SERVICE_ACCOUNT_KEY_PATH`: The path to your GCP service account key JSON file.
-    -   `DOC_AI_PROCESSOR_DISPLAY_NAME`: A display name for your Document AI processor.
-    -   `VERTEX_AI_DATA_STORE_DISPLAY_NAME`: A display name for your Vertex AI Search data store.
-    -   `VERTEX_AI_SEARCH_ENGINE_DISPLAY_NAME`: A display name for your Vertex AI Search engine.
-    -   `SAMPLE_DOC_PATH`: The path to a sample document for testing the Document AI processor.
+2.  **Edit the `.env` file** with your GCP project details, service account key path, and a prefix for your GCS buckets.
 
-### 4.3. Backend Setup
+### 4.3. Backend Setup and Execution
 
 1.  **Create and activate a virtual environment:**
     ```bash
@@ -83,15 +81,17 @@ cd KnowledgeExtractor
     ```bash
     pip install -r requirements.txt
     ```
-3.  **Run the setup scripts:**
-    -   **Day 1: Document Processing Setup**
-        ```bash
-        python backend/src/setup_day1.py
-        ```
-    -   **Day 2: Knowledge Base and Search Setup**
-        ```bash
-        python backend/src/setup_day2.py
-        ```
+3.  **Run the setup scripts in order:**
+    ```bash
+    python backend/src/setup_day1.py
+    python backend/src/setup_day2.py
+    python backend/src/populate_kb.py
+    ```
+4.  **Execute the main pipeline:**
+    ```bash
+    python backend/src/main_pipeline.py
+    ```
+    This will generate a `healthcare_qa_results.json` file in the root directory.
 
 ### 4.4. Frontend Setup
 
@@ -113,7 +113,7 @@ cd KnowledgeExtractor
 
 (This section can be expanded with details about the API endpoints as the project evolves.)
 
-The backend provides a set of scripts for setting up the GCP infrastructure. The frontend communicates with the Vertex AI Search API to perform queries.
+The backend provides a set of scripts for setting up the GCP infrastructure and running the QA pipeline. The core logic is in `healthcare_pipeline.py`, which uses Gemini and Vertex AI Search.
 
 ## 6. Troubleshooting Guide
 
