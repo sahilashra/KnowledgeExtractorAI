@@ -4,31 +4,36 @@
 venv/
 env/
 
-# Python cache
+# Secrets
+ServiceAccountKey/
+*.json
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+/dist
+/build
+/local_settings.py
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
 
-# IDE and editor directories
-.idea/
-.vscode/
-
-# Node.js dependencies & logs
+# Node.js
 node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
-# Next.js build artifacts
-.next/
-out/
-
-# Sensitive credentials
-# IMPORTANT: Ensure your service account key is in a directory listed here
-# or is located outside the project directory entirely.
-ServiceAccountKey/
-
-# OS-specific files
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*~
 .DS_Store
-Thumbs.db
-healthcare_qa_results.json 
+
+# Frontend
+frontend/node_modules
+frontend/.next

@@ -1,107 +1,135 @@
-# KnowledgeExtractor AI
+# Knowledge Extractor: A Healthcare QA System
 
-**Revolutionizing Healthcare Compliance & QA with Generative AI**
+## 1. Project Overview
 
-KnowledgeExtractor AI is an intelligent platform that ingests complex healthcare requirements documents and automatically generates a comprehensive, audit-ready suite of QA test cases. Built on Google Cloud AI, it transforms dense regulatory documents (FDA, IEC 62304, ISO 13485) into test suites in minutes, not weeks.
+This project is a comprehensive solution for building a Healthcare Question-Answering (QA) system using Google Cloud's powerful AI services. It's designed for a hackathon setting, providing a clear and easy-to-follow setup for judges to evaluate. The system automates the process of ingesting, understanding, and indexing healthcare compliance documents, making them easily searchable through a user-friendly interface.
 
----
+### Key Features:
 
-## 🚀 Key Features
+-   **Automated Document Processing:** Uses **Document AI** to parse and extract structured information from PDF forms.
+-   **Intelligent Knowledge Base:** Leverages **Vertex AI Search** to create a powerful, searchable knowledge base from compliance documents.
+-   **Scalable Infrastructure:** Built on serverless components like **Cloud Storage** and **Cloud Run** for scalability and cost-effectiveness.
+-   **User-Friendly Frontend:** A **Next.js** application provides a clean and intuitive interface for interacting with the QA system.
 
--   **🤖 AI-Powered Test Generation**: Ingests requirements (PDF, MD) and produces high-quality, relevant test cases using Google's Gemini Pro.
--   **🛡️ Compliance-Aware Knowledge Base**: Ensures tests are aligned with critical industry standards (FDA 21 CFR 820, ISO 13485, etc.) using a RAG architecture with Vertex AI Search.
--   **🔄 Real-time Progress Monitoring**: A dynamic frontend built with Next.js and Server-Sent Events provides a live view of the entire pipeline.
--   **✅ Seamless Jira Integration**: One-click export of approved test cases directly to your Jira project via a robust, asynchronous Google Cloud Task queue.
--   **📦 One-Click Audit-Ready Evidence Bundle**: Instantly download a `.zip` archive containing the original requirements, raw Jira API logs, and a full traceability matrix.
--   **📈 Business Impact Analytics**: A real-time dashboard showing estimated cost savings, risk coverage, and compliance alignment.
+## 2. Architecture Overview
 
----
+The system is built on a serverless architecture using Google Cloud Platform services.
 
-## 🏛️ Architecture Overview
+-   **Frontend:** A Next.js application provides the user interface for uploading documents and asking questions.
+-   **Backend:** Python scripts automate the setup and configuration of the GCP services.
+    -   **`setup_day1.py`:** Provisions Document AI and Cloud Storage buckets for the document processing pipeline.
+    -   **`setup_day2.py`:** Sets up Vertex AI Search to create the knowledge base.
+-   **Data Flow:**
+    1.  Healthcare compliance documents (PDFs) are uploaded to a **Cloud Storage** bucket.
+    2.  **Document AI** processes the documents, extracts structured data, and stores the output in another Cloud Storage bucket.
+    3.  **Vertex AI Search** indexes the processed documents, creating a searchable knowledge base.
+    4.  The user interacts with the frontend to ask questions, which are then sent to the Vertex AI Search engine to retrieve relevant answers.
 
-The system uses a secure and scalable pipeline built on Google Cloud:
+### Technology Stack:
 
-1.  **Upload & Parse**: Requirements documents are securely uploaded to Cloud Storage and parsed by Google's Document AI.
-2.  **Analyze & Cross-Reference**: Gemini Pro analyzes the text, cross-referencing it with our vector-based Compliance Knowledge Base powered by Vertex AI Search.
-3.  **Generate & Review**: Gemini generates detailed test cases, which are presented to the user for review in the web UI.
-4.  **Export & Log**: Approved tests are sent to Jira via a Cloud Task queue, and all actions are logged in BigQuery for a complete audit trail.
+-   **Frontend:** Next.js, React, TypeScript
+-   **Backend:** Python
+-   **Google Cloud Platform:**
+    -   Document AI
+    -   Vertex AI Search
+    -   Cloud Storage
+    -   Cloud Run (for deployment)
 
----
+## 3. Prerequisites
 
-## 🛠️ Getting Started
+Before you begin, ensure you have the following:
 
-### Prerequisites
+-   **Google Cloud Account:** A GCP account with billing enabled.
+-   **gcloud CLI:** The Google Cloud SDK installed and authenticated.
+-   **API Keys & Service Accounts:** A GCP project with the following APIs enabled:
+    -   Document AI API
+    -   Vertex AI Search API
+    -   Cloud Storage API
+-   **Python 3.9+**
+-   **Node.js 18.x+**
 
--   Python 3.10+
--   Node.js 18+
--   Access to Google Cloud Platform with a configured project
--   A Service Account key with the required permissions (see below)
--   Jira instance with API access
+## 4. Step-by-Step Setup Guide
 
-### 1. Clone the Repository
+### 4.1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/your-username/KnowledgeExtractor.git
 cd KnowledgeExtractor
 ```
 
-### 2. Setup the Backend (Python)
+### 4.2. Configure Environment Variables
 
-```bash
-# Create and activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows use `.\.venv\Scripts\activate`
-
-# Install Python dependencies
-pip install -r requirements.txt
-```
-
-### 3. Setup the Frontend (Node.js)
-
-```bash
-# Navigate to the frontend directory
-cd frontend
-
-# Install Node.js dependencies
-npm install
-```
-
-### 4. Configure Environment Variables
-
-1.  Make a copy of the example environment file.
+1.  **Create a `.env` file:**
     ```bash
     cp .env.example .env
     ```
-2.  Open the `.env` file and fill in the required values for your GCP project, Gemini API Key, and Service Account Key path.
-3.  **IMPORTANT**: Ensure your Service Account has the following IAM roles:
-    -   `Secret Manager Secret Accessor`
-    -   `BigQuery User`
-    -   `Cloud Tasks Enqueuer`
-    -   `Document AI API User`
-    -   `Service Account User`
-    -   `Storage Object Admin`
+2.  **Edit the `.env` file:**
+    -   `GCP_PROJECT_ID`: Your Google Cloud project ID.
+    -   `GCP_REGION`: The GCP region where you want to deploy the services (e.g., `us-central1`).
+    -   `GCP_SERVICE_ACCOUNT_KEY_PATH`: The path to your GCP service account key JSON file.
+    -   `DOC_AI_PROCESSOR_DISPLAY_NAME`: A display name for your Document AI processor.
+    -   `VERTEX_AI_DATA_STORE_DISPLAY_NAME`: A display name for your Vertex AI Search data store.
+    -   `VERTEX_AI_SEARCH_ENGINE_DISPLAY_NAME`: A display name for your Vertex AI Search engine.
+    -   `SAMPLE_DOC_PATH`: The path to a sample document for testing the Document AI processor.
 
----
+### 4.3. Backend Setup
 
-## 🏃‍♂️ How to Run the Application
+1.  **Create and activate a virtual environment:**
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
+    ```
+2.  **Install Python dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Run the setup scripts:**
+    -   **Day 1: Document Processing Setup**
+        ```bash
+        python backend/src/setup_day1.py
+        ```
+    -   **Day 2: Knowledge Base and Search Setup**
+        ```bash
+        python backend/src/setup_day2.py
+        ```
 
-### 1. Start the Backend Server
+### 4.4. Frontend Setup
 
-From the project root directory:
+1.  **Navigate to the frontend directory:**
+    ```bash
+    cd frontend
+    ```
+2.  **Install Node.js dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `http://localhost:3000`.
 
-```bash
-# Ensure your Python virtual environment is activated
-node backend/server.js
-```
+## 5. API Documentation
 
-The backend will be running at `http://localhost:3001`.
+(This section can be expanded with details about the API endpoints as the project evolves.)
 
-### 2. Start the Frontend Application
+The backend provides a set of scripts for setting up the GCP infrastructure. The frontend communicates with the Vertex AI Search API to perform queries.
 
-In a separate terminal, from the `frontend` directory:
+## 6. Troubleshooting Guide
 
-```bash
-npm run dev
-```
+-   **Authentication Errors:** Ensure your `gcloud` CLI is authenticated and the service account key has the necessary permissions (e.g., "Document AI Editor", "Vertex AI Search Admin", "Storage Admin").
+-   **API Not Enabled:** If you encounter errors related to APIs not being enabled, go to the GCP Console and enable the required APIs for your project.
+-   **Python Dependencies:** If you have issues with Python packages, ensure you are using a virtual environment and have installed all the packages from `requirements.txt`.
 
-The frontend will be running at `http://localhost:3000`. Open this URL in your browser to use the application.
+## 7. Demo Data and Test Files
+
+-   **`compliance-knowledge-base/`:** This directory contains sample compliance documents (PDFs) that will be indexed by Vertex AI Search. You can add your own documents to this directory.
+-   **Sample Document:** The `SAMPLE_DOC_PATH` in the `.env` file should point to a sample document for testing the Document AI processor.
+
+## 8. Deployment to Cloud Run
+
+(This section can be added later with instructions on how to deploy the Next.js frontend and a potential backend API to Cloud Run.)
+
+## 9. License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
