@@ -1,0 +1,39 @@
+# Environments
+.env
+.venv
+venv/
+env/
+
+# Secrets
+ServiceAccountKey/
+*.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+/dist
+/build
+/local_settings.py
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Frontend
+frontend/node_modules
+frontend/.next
