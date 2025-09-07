@@ -117,18 +117,86 @@ The backend provides a set of scripts for setting up the GCP infrastructure. The
 
 ## 6. Troubleshooting Guide
 
--   **Authentication Errors:** Ensure your `gcloud` CLI is authenticated and the service account key has the necessary permissions (e.g., "Document AI Editor", "Vertex AI Search Admin", "Storage Admin").
--   **API Not Enabled:** If you encounter errors related to APIs not being enabled, go to the GCP Console and enable the required APIs for your project.
--   **Python Dependencies:** If you have issues with Python packages, ensure you are using a virtual environment and have installed all the packages from `requirements.txt`.
+-   **Authentication Errors:**
+    -   Ensure your `gcloud` CLI is authenticated. Run `gcloud auth login` and `gcloud auth application-default login`.
+    -   Verify that the service account key specified in `GCP_SERVICE_ACCOUNT_KEY_PATH` is correct and has the necessary IAM roles: "Document AI Editor", "Vertex AI Search Admin", and "Storage Admin".
+    -   Make sure you have enabled the required APIs in your GCP project.
+
+-   **API Not Enabled:**
+    -   If you see errors like `API has not been used in project...`, go to the Google Cloud Console, navigate to "APIs & Services" > "Enabled APIs & Services", and enable the "Document AI API", "Vertex AI Search API", and "Cloud Storage API".
+
+-   **Python Dependencies:**
+    -   Always use a virtual environment to avoid conflicts.
+    -   If `pip install` fails, check your Python version and ensure it's compatible with the packages in `requirements.txt`.
+
+-   **Frontend Issues:**
+    -   If `npm install` fails, try deleting the `node_modules` directory and `package-lock.json` file in the `frontend` directory, then run `npm install` again.
+    -   Ensure you have a `.env.local` file in the `frontend` directory with the necessary environment variables for the frontend application.
 
 ## 7. Demo Data and Test Files
 
--   **`compliance-knowledge-base/`:** This directory contains sample compliance documents (PDFs) that will be indexed by Vertex AI Search. You can add your own documents to this directory.
--   **Sample Document:** The `SAMPLE_DOC_PATH` in the `.env` file should point to a sample document for testing the Document AI processor.
+-   **`compliance-knowledge-base/`:** This directory should be populated with the PDF documents you want to be indexed. Sample documents are provided.
+-   **Sample Document:** Ensure the `SAMPLE_DOC_PATH` in your `.env` file points to a valid document for testing the Document AI pipeline.
 
 ## 8. Deployment to Cloud Run
 
-(This section can be added later with instructions on how to deploy the Next.js frontend and a potential backend API to Cloud Run.)
+To deploy the Next.js frontend to Cloud Run, you can use a Dockerfile.
+
+### 8.1. Create a `Dockerfile` in the `frontend` directory:
+
+```Dockerfile
+# Use the official Node.js 18 image.
+FROM node:18-alpine
+
+# Set the working directory.
+WORKDIR /app
+
+# Copy package.json and package-lock.json.
+COPY package*.json ./
+
+# Install dependencies.
+RUN npm install
+
+# Copy the rest of the application files.
+COPY . .
+
+# Build the Next.js application.
+RUN npm run build
+
+# Expose the port the app runs on.
+EXPOSE 3000
+
+# Run the application.
+CMD ["npm", "start"]
+```
+
+### 8.2. Build and Push the Docker Image to Google Artifact Registry:
+
+```bash
+# Navigate to the frontend directory
+cd frontend
+
+# Configure Docker to use the gcloud CLI
+gcloud auth configure-docker
+
+# Build the Docker image
+docker build -t us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/knowledge-extractor/frontend:latest .
+
+# Push the image to Artifact Registry
+docker push us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/knowledge-extractor/frontend:latest
+```
+
+### 8.3. Deploy to Cloud Run:
+
+```bash
+gcloud run deploy frontend \
+    --image us-central1-docker.pkg.dev/YOUR_GCP_PROJECT_ID/knowledge-extractor/frontend:latest \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated
+```
+
+Replace `YOUR_GCP_PROJECT_ID` with your actual GCP project ID.
 
 ## 9. License
 
