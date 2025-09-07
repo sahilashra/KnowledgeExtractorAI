@@ -138,7 +138,15 @@ The backend provides a set of scripts for setting up the GCP infrastructure. The
 -   **`compliance-knowledge-base/`:** This directory should be populated with the PDF documents you want to be indexed. Sample documents are provided.
 -   **Sample Document:** Ensure the `SAMPLE_DOC_PATH` in your `.env` file points to a valid document for testing the Document AI pipeline.
 
-## 8. Deployment to Cloud Run
+## 8. Submission Materials
+
+You can find supplementary materials for this hackathon submission in the `/docs` directory:
+
+-   **/docs/presentation:** Contains the presentation slides.
+-   **/docs/screenshots:** Contains screenshots of the application.
+-   **/docs/samples:** Contains sample output files, such as `healthcare_qa_results.json`.
+
+## 9. Deployment to Cloud Run
 
 To deploy the Next.js frontend to Cloud Run, you can use a Dockerfile.
 
