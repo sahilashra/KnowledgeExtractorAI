@@ -206,6 +206,18 @@ gcloud run deploy frontend \
 
 Replace `YOUR_GCP_PROJECT_ID` with your actual GCP project ID.
 
-## 9. License
+## 9. Screenshots:
+
+### 9.1. Test generator UI:
+<img width="1622" height="961" alt="image" src="https://github.com/user-attachments/assets/d55c2119-858c-4bf1-b87f-ca8f61d4d621" />
+
+### 9.2. Jira Tickets Created:
+<img width="800" height="834" alt="Screenshot 2025-09-09 192224" src="https://github.com/user-attachments/assets/8f6d6daa-5b2a-43fc-8a57-4ac273a1abab" />
+
+### 9.3. GCP queue status:
+<img width="1904" height="502" alt="Screenshot 2025-09-06 164535" src="https://github.com/user-attachments/assets/662211b8-b807-498c-a3d9-fedb8f30a8aa" />
+
+
+## 10. License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
